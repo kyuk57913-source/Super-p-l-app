@@ -1,4 +1,4 @@
-// Trading Pairs list in UPPERCASE as requested
+// Trading Pairs list in UPPERCASE
 const tradingPairs = [
     "NAS100", "XAUUSD", "USDJPY", "BTCUSDT", "AUDUSD", 
     "SOLUSDT", "S&P 500", "GBPUSD", "GBPJPY", "NZDUSD", 
