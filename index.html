@@ -9,18 +9,39 @@
     <!-- App Icon Integration -->
     <link rel="icon" type="image/png" href="Icon-512.png">
     <link rel="apple-touch-icon" href="Icon-512.png">
+    <!-- html2canvas for P&L Image Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
-<body>
+<body class="theme-oled">
+
+    <!-- PIN Lock Screen Overlay -->
+    <div id="pin-overlay" class="pin-overlay hidden">
+        <div class="pin-card liquid-glass">
+            <i class="fa-solid fa-lock pin-icon"></i>
+            <h2>Enter Security PIN</h2>
+            <div class="pin-dots">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <div class="pin-pad">
+                <button onclick="pressPin('1')">1</button><button onclick="pressPin('2')">2</button><button onclick="pressPin('3')">3</button>
+                <button onclick="pressPin('4')">4</button><button onclick="pressPin('5')">5</button><button onclick="pressPin('6')">6</button>
+                <button onclick="pressPin('7')">7</button><button onclick="pressPin('8')">8</button><button onclick="pressPin('9')">9</button>
+                <button onclick="clearPin()"><i class="fa-solid fa-arrow-left"></i></button>
+                <button onclick="pressPin('0')">0</button>
+                <button onclick="submitPin()"><i class="fa-solid fa-check"></i></button>
+            </div>
+        </div>
+    </div>
+
     <div id="app">
         <!-- Header -->
         <header class="liquid-glass-header">
             <h1 id="page-title">Journal</h1>
             <div class="account-selector">
-                <select id="account-dropdown" onchange="switchAccount()">
-                    <option value="all">All Accounts</option>
-                    <option value="main">Main Account</option>
-                    <option value="prop">Prop Firm</option>
+                <select id="account-dropdown" onchange="switchAccount(this.value)">
+                    <!-- Account options loaded dynamically -->
                 </select>
+                <button class="btn-icon" onclick="openAddAccountModal()"><i class="fa-solid fa-folder-plus"></i></button>
             </div>
         </header>
 
@@ -28,35 +49,71 @@
         <main id="main-content">
             <!-- Journal View -->
             <div id="journal-view" class="view-section active">
-                <div class="pnl-card liquid-glass">
-                    <span id="total-pnl" class="positive">+$407.10</span>
-                    <p id="total-trades">7 trades</p>
+                <div class="pnl-card liquid-glass" id="summary-pnl-card">
+                    <div class="pnl-header">
+                        <span class="app-brand"><i class="fa-solid fa-chart-line"></i> TradeTrack</span>
+                        <button class="share-btn" onclick="sharePnLCard()"><i class="fa-solid fa-share-nodes"></i> Share P&L</button>
+                    </div>
+                    <h2 id="account-display-name">Main Account</h2>
+                    <span id="total-pnl" class="positive">+$0.00</span>
+                    <p id="total-trades">0 trades</p>
                 </div>
+
                 <div class="stats-grid">
-                    <div class="stat-box liquid-glass"><span>Win rate</span><h3>71%</h3></div>
-                    <div class="stat-box liquid-glass"><span>Profit factor</span><h3>4.44</h3></div>
+                    <div class="stat-box liquid-glass"><span>Win Rate</span><h3 id="stat-winrate">0%</h3></div>
+                    <div class="stat-box liquid-glass"><span>Profit Factor</span><h3 id="stat-pf">0.00</h3></div>
                 </div>
+
                 <div class="trades-list" id="trades-list">
-                    <!-- Trades list -->
+                    <!-- Trades list loaded dynamically -->
                 </div>
             </div>
 
             <!-- Reports View -->
             <div id="reports-view" class="view-section">
                 <div class="reports-header liquid-glass">
-                    <h2>October 2026 Reports</h2>
+                    <h2 id="report-month-title">Monthly Summary</h2>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box liquid-glass"><span>Total Profit</span><h3 id="stat-total-profit" class="positive">$0.00</h3></div>
+                    <div class="stat-box liquid-glass"><span>Total Loss</span><h3 id="stat-total-loss" class="negative">$0.00</h3></div>
+                </div>
+                <div class="calendar-grid liquid-glass" id="calendar-grid">
+                    <!-- Calendar summary -->
                 </div>
             </div>
 
             <!-- Data & Settings View -->
             <div id="data-view" class="view-section">
+                <!-- Backup & Restore -->
                 <div class="data-card liquid-glass">
-                    <h3>Data Backup & Restore</h3>
-                    <button onclick="exportData()" class="btn-primary">Export CSV File</button>
-                    <button onclick="importData()" class="btn-secondary">Import CSV File</button>
+                    <h3><i class="fa-solid fa-database"></i> Data Backup & Restore</h3>
+                    <div class="button-group">
+                        <button onclick="exportJSON()" class="btn-primary"><i class="fa-solid fa-file-export"></i> Export JSON</button>
+                        <button onclick="exportCSV()" class="btn-primary"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+                    </div>
+                    <div class="import-group">
+                        <label for="import-file" class="btn-secondary"><i class="fa-solid fa-file-import"></i> Restore Backup</label>
+                        <input type="file" id="import-file" accept=".json,.csv" onchange="importData(event)" style="display:none;">
+                    </div>
                 </div>
+
+                <!-- Security PIN Setting -->
+                <div class="data-card liquid-glass">
+                    <h3><i class="fa-solid fa-shield-halved"></i> PIN Security</h3>
+                    <div class="setting-row">
+                        <span>Enable PIN Protection</span>
+                        <input type="checkbox" id="pin-toggle" onchange="togglePinSecurity(this.checked)">
+                    </div>
+                    <div id="set-pin-section" class="hidden" style="margin-top:10px;">
+                        <input type="password" id="new-pin" placeholder="Enter 4-digit PIN" maxlength="4">
+                        <button onclick="saveNewPin()" class="btn-primary">Save PIN</button>
+                    </div>
+                </div>
+
+                <!-- Theme Selector -->
                 <div class="theme-card liquid-glass">
-                    <h3>Select Theme (10 Options)</h3>
+                    <h3><i class="fa-solid fa-palette"></i> Select Theme (10 Options)</h3>
                     <select id="theme-selector" onchange="changeTheme(this.value)">
                         <option value="theme-oled">OLED Black (Default)</option>
                         <option value="theme-cyberpunk">Neon Cyberpunk</option>
@@ -85,6 +142,91 @@
             <button onclick="switchTab('data')" class="nav-btn"><i class="fa-solid fa-database"></i><span>Data</span></button>
         </nav>
     </div>
+
+    <!-- Modal: Add/Edit Trade -->
+    <div id="trade-modal" class="modal hidden">
+        <div class="modal-content liquid-glass">
+            <div class="modal-header">
+                <h2>Add Trade Entry</h2>
+                <button onclick="closeAddTradeModal()" class="close-btn">&times;</button>
+            </div>
+            <form id="trade-form" onsubmit="saveTrade(event)">
+                <div class="form-group">
+                    <label>Pair / Instrument (Uppercase)</label>
+                    <input type="text" id="trade-pair" placeholder="e.g. NAS100, XAUUSD" required oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="trade-type">
+                            <option value="BUY">BUY</option>
+                            <option value="SELL">SELL</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>P&L Amount ($)</label>
+                        <input type="number" step="0.01" id="trade-pnl" placeholder="e.g. 150.00 or -50.00" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Entry Price</label>
+                        <input type="number" step="0.00001" id="trade-entry">
+                    </div>
+                    <div class="form-group">
+                        <label>Exit Price</label>
+                        <input type="number" step="0.00001" id="trade-exit">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stop Loss</label>
+                        <input type="number" step="0.00001" id="trade-sl">
+                    </div>
+                    <div class="form-group">
+                        <label>Take Profit</label>
+                        <input type="number" step="0.00001" id="trade-tp">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="trade-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Trade Screenshots (Up to 5)</label>
+                    <input type="file" id="trade-screenshots" accept="image/*" multiple onchange="handleImageUpload(event)">
+                    <div id="screenshot-preview-container" class="preview-container"></div>
+                </div>
+                <div class="form-group">
+                    <label>Notes / Strategy</label>
+                    <textarea id="trade-notes" rows="3" placeholder="Trade analysis or confluence..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">Save Trade</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Add Account -->
+    <div id="account-modal" class="modal hidden">
+        <div class="modal-content liquid-glass">
+            <div class="modal-header">
+                <h2>Add New Account</h2>
+                <button onclick="closeAddAccountModal()" class="close-btn">&times;</button>
+            </div>
+            <form onsubmit="saveAccount(event)">
+                <div class="form-group">
+                    <label>Account Name</label>
+                    <input type="text" id="new-account-name" placeholder="e.g. Prop Firm Challenge" required>
+                </div>
+                <div class="form-group">
+                    <label>Initial Balance ($)</label>
+                    <input type="number" step="0.01" id="new-account-balance" placeholder="10000" required>
+                </div>
+                <button type="submit" class="btn-primary full-width">Create Account</button>
+            </form>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
