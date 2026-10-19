@@ -1,0 +1,15 @@
+{
+  "name": "TradeTrack P&L Journal",
+  "short_name": "TradeTrack",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff88",
+  "icons": [
+    {
+      "src": "Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
