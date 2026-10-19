@@ -6,6 +6,9 @@
     <title>TradeTrack P&L Journal</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- App Icon Integration -->
+    <link rel="icon" type="image/png" href="Icon-512.png">
+    <link rel="apple-touch-icon" href="Icon-512.png">
 </head>
 <body>
     <div id="app">
@@ -29,15 +32,12 @@
                     <span id="total-pnl" class="positive">+$407.10</span>
                     <p id="total-trades">7 trades</p>
                 </div>
-                <div class="chart-container liquid-glass">
-                    <canvas id="pnlChart"></canvas>
-                </div>
                 <div class="stats-grid">
                     <div class="stat-box liquid-glass"><span>Win rate</span><h3>71%</h3></div>
                     <div class="stat-box liquid-glass"><span>Profit factor</span><h3>4.44</h3></div>
                 </div>
                 <div class="trades-list" id="trades-list">
-                    <!-- Trades will be loaded dynamically -->
+                    <!-- Trades list -->
                 </div>
             </div>
 
@@ -45,9 +45,6 @@
             <div id="reports-view" class="view-section">
                 <div class="reports-header liquid-glass">
                     <h2>October 2026 Reports</h2>
-                </div>
-                <div class="calendar-grid" id="calendar-grid">
-                    <!-- Calendar days -->
                 </div>
             </div>
 
@@ -90,5 +87,4 @@
     </div>
     <script src="app.js"></script>
 </body>
-      </html>
-      
+</html>
