@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TradeTrack P&L Journal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="liquid-glass-header">
+            <h1 id="page-title">Journal</h1>
+            <div class="account-selector">
+                <select id="account-dropdown" onchange="switchAccount()">
+                    <option value="all">All Accounts</option>
+                    <option value="main">Main Account</option>
+                    <option value="prop">Prop Firm</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-content">
+            <!-- Journal View -->
+            <div id="journal-view" class="view-section active">
+                <div class="pnl-card liquid-glass">
+                    <span id="total-pnl" class="positive">+$407.10</span>
+                    <p id="total-trades">7 trades</p>
+                </div>
+                <div class="chart-container liquid-glass">
+                    <canvas id="pnlChart"></canvas>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box liquid-glass"><span>Win rate</span><h3>71%</h3></div>
+                    <div class="stat-box liquid-glass"><span>Profit factor</span><h3>4.44</h3></div>
+                </div>
+                <div class="trades-list" id="trades-list">
+                    <!-- Trades will be loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="reports-view" class="view-section">
+                <div class="reports-header liquid-glass">
+                    <h2>October 2026 Reports</h2>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Calendar days -->
+                </div>
+            </div>
+
+            <!-- Data & Settings View -->
+            <div id="data-view" class="view-section">
+                <div class="data-card liquid-glass">
+                    <h3>Data Backup & Restore</h3>
+                    <button onclick="exportData()" class="btn-primary">Export CSV File</button>
+                    <button onclick="importData()" class="btn-secondary">Import CSV File</button>
+                </div>
+                <div class="theme-card liquid-glass">
+                    <h3>Select Theme (10 Options)</h3>
+                    <select id="theme-selector" onchange="changeTheme(this.value)">
+                        <option value="theme-oled">OLED Black (Default)</option>
+                        <option value="theme-cyberpunk">Neon Cyberpunk</option>
+                        <option value="theme-gold">Gold Luxury</option>
+                        <option value="theme-emerald">Emerald Forest</option>
+                        <option value="theme-ocean">Ocean Blue</option>
+                        <option value="theme-purple">Purple Glass</option>
+                        <option value="theme-crimson">Midnight Crimson</option>
+                        <option value="theme-minimal">Minimalist White</option>
+                        <option value="theme-sunset">Sunset Orange</option>
+                        <option value="theme-titanium">Titanium Metallic</option>
+                    </select>
+                </div>
+            </div>
+        </main>
+
+        <!-- Floating Add Trade Button -->
+        <button class="fab-btn liquid-glass" onclick="openAddTradeModal()">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav liquid-glass">
+            <button onclick="switchTab('journal')" class="nav-btn active"><i class="fa-solid fa-chart-line"></i><span>Journal</span></button>
+            <button onclick="switchTab('reports')" class="nav-btn"><i class="fa-solid fa-calendar-days"></i><span>Reports</span></button>
+            <button onclick="switchTab('data')" class="nav-btn"><i class="fa-solid fa-database"></i><span>Data</span></button>
+        </nav>
+    </div>
+    <script src="app.js"></script>
+</body>
+      </html>
+      
