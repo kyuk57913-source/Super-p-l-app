@@ -1,22 +1,23 @@
 :root {
     --bg-color: #000000;
-    --card-bg: rgba(25, 25, 25, 0.6);
+    --card-bg: rgba(25, 25, 25, 0.65);
     --text-color: #ffffff;
     --primary-color: #00ff88;
     --danger-color: #ff453a;
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.12);
 }
 
-/* Themes Definition */
-body.theme-cyberpunk { --bg-color: #0d0221; --card-bg: rgba(25, 10, 55, 0.6); --primary-color: #00f0ff; }
-body.theme-gold { --bg-color: #141414; --card-bg: rgba(34, 34, 34, 0.6); --primary-color: #ffd700; }
-body.theme-emerald { --bg-color: #061a14; --card-bg: rgba(13, 40, 30, 0.6); --primary-color: #2ecc71; }
-body.theme-ocean { --bg-color: #0a192f; --card-bg: rgba(17, 34, 64, 0.6); --primary-color: #64ffda; }
-body.theme-purple { --bg-color: #13091d; --card-bg: rgba(29, 16, 45, 0.6); --primary-color: #bb86fc; }
-body.theme-crimson { --bg-color: #120000; --card-bg: rgba(36, 8, 8, 0.6); --primary-color: #ff3366; }
-body.theme-minimal { --bg-color: #f8f9fa; --card-bg: rgba(255, 255, 255, 0.8); --text-color: #111; --primary-color: #10b981; }
-body.theme-sunset { --bg-color: #1a0f00; --card-bg: rgba(42, 27, 10, 0.6); --primary-color: #ff6f00; }
-body.theme-titanium { --bg-color: #1c1d21; --card-bg: rgba(42, 43, 48, 0.6); --primary-color: #e2e8f0; }
+/* 10 Themes Definitions */
+body.theme-oled { --bg-color: #000000; --card-bg: rgba(25, 25, 25, 0.65); --primary-color: #00ff88; --danger-color: #ff453a; }
+body.theme-cyberpunk { --bg-color: #0d0221; --card-bg: rgba(25, 10, 55, 0.65); --primary-color: #00f0ff; --danger-color: #ff007f; }
+body.theme-gold { --bg-color: #141414; --card-bg: rgba(34, 34, 34, 0.65); --primary-color: #ffd700; --danger-color: #ff8c00; }
+body.theme-emerald { --bg-color: #061a14; --card-bg: rgba(13, 40, 30, 0.65); --primary-color: #2ecc71; --danger-color: #e74c3c; }
+body.theme-ocean { --bg-color: #0a192f; --card-bg: rgba(17, 34, 64, 0.65); --primary-color: #64ffda; --danger-color: #ff6b6b; }
+body.theme-purple { --bg-color: #13091d; --card-bg: rgba(29, 16, 45, 0.65); --primary-color: #bb86fc; --danger-color: #03dac6; }
+body.theme-crimson { --bg-color: #120000; --card-bg: rgba(36, 8, 8, 0.65); --primary-color: #ff3366; --danger-color: #33cc99; }
+body.theme-minimal { --bg-color: #f8f9fa; --card-bg: rgba(255, 255, 255, 0.85); --text-color: #111111; --primary-color: #10b981; --danger-color: #ef4444; }
+body.theme-sunset { --bg-color: #1a0f00; --card-bg: rgba(42, 27, 10, 0.65); --primary-color: #ff6f00; --danger-color: #29b6f6; }
+body.theme-titanium { --bg-color: #1c1d21; --card-bg: rgba(42, 43, 48, 0.65); --primary-color: #e2e8f0; --danger-color: #64748b; }
 
 body {
     margin: 0;
@@ -28,8 +29,8 @@ body {
 
 .liquid-glass {
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     border-radius: 16px;
@@ -41,43 +42,74 @@ body {
     align-items: center;
     padding: 15px 20px;
     background: var(--card-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
+.account-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .view-section {
     display: none;
     padding: 20px;
-    padding-bottom: 90px;
+    padding-bottom: 95px;
 }
 
 .view-section.active {
     display: block;
-    animation: fadeIn 0.4s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* P&L Card & Share Styling */
 .pnl-card {
-    text-align: center;
     padding: 20px;
     margin-bottom: 15px;
+    text-align: center;
+    position: relative;
 }
 
-.pnl-card span {
-    font-size: 36px;
-    font-weight: bold;
-    color: var(--primary-color);
+.pnl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.share-btn {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 6px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.positive { color: var(--primary-color) !important; }
+.negative { color: var(--danger-color) !important; }
+
+#total-pnl {
+    font-size: 38px;
+    font-weight: 800;
+    display: block;
+    margin: 8px 0;
 }
 
 .stats-grid {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 15px;
 }
 
@@ -87,6 +119,36 @@ body {
     text-align: center;
 }
 
+.stat-box h3 {
+    margin: 6px 0 0 0;
+    font-size: 20px;
+}
+
+/* Trades List Item */
+.trade-card {
+    padding: 15px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.trade-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+}
+
+.trade-badge {
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.badge-buy { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+.badge-sell { background: rgba(255, 69, 58, 0.2); color: #ff453a; }
+
+/* Bottom Nav & FAB */
 .bottom-nav {
     position: fixed;
     bottom: 15px;
@@ -94,8 +156,9 @@ body {
     right: 15px;
     display: flex;
     justify-content: space-around;
-    padding: 10px;
-    border-radius: 20px;
+    padding: 12px;
+    border-radius: 24px;
+    z-index: 99;
 }
 
 .nav-btn {
@@ -105,10 +168,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
     cursor: pointer;
-    opacity: 0.6;
-    transition: 0.3s;
+    opacity: 0.5;
 }
 
 .nav-btn.active {
@@ -116,31 +178,173 @@ body {
     color: var(--primary-color);
 }
 
-.nav-btn i {
-    font-size: 20px;
-    margin-bottom: 4px;
-}
+.nav-btn i { font-size: 18px; margin-bottom: 3px; }
 
 .fab-btn {
     position: fixed;
     bottom: 85px;
     right: 20px;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: var(--primary-color);
     color: #000;
     border: none;
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,255,136,0.4);
-    z-index: 101;
+    z-index: 100;
 }
 
-select {
-    background: var(--card-bg);
+/* Modal Overlay & Forms */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+}
+
+.modal.hidden { display: none; }
+
+.modal-content {
+    width: 100%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 12px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.form-row .form-group { flex: 1; }
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: #000;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,0.1);
     color: var(--text-color);
     border: 1px solid var(--glass-border);
-    padding: 8px 12px;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-icon {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-border);
+    color: var(--text-color);
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.full-width { width: 100%; }
+
+.preview-container {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.preview-container img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
     border-radius: 8px;
 }
+
+/* PIN Lock Screen */
+.pin-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+}
+
+.pin-overlay.hidden { display: none; }
+
+.pin-card {
+    text-align: center;
+    padding: 30px;
+    width: 280px;
+}
+
+.pin-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.pin-pad button {
+    padding: 15px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-color);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    }
